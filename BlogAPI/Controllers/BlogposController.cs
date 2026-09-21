@@ -10,7 +10,7 @@ namespace BlogAPI.Controllers
     [ApiController]
     public class BlogposController : ControllerBase
     {
-        public string connectionString = "server=localhost;uid=root;password=;database=blog;";
+        public string connectionString = "server=localhost;port=3307;uid=root;password=;database=blog;";
 
         [HttpGet]
         public object GetBloggers()
@@ -20,19 +20,19 @@ namespace BlogAPI.Controllers
 
             connection.Open();
 
-            string sql = "SELECT * FROM blogger";
+            string sql = "SELECT * FROM blogpost";
             var cmd = new MySqlCommand(sql, connection);
             var data = cmd.ExecuteReader();
             while (data.Read())
             {
-                var bloggERS = new Blogpost()
+                Blogpost bloggERS = new Blogpost()
                 {
-                    Id = data.GetInt32("Id"),
-                    Title = data.GetString("Title"),
-                    Content = data.GetString("Content"),
-                    postTime = data.GetDateTime("postTime"),
-                    updateTime = data.GetDateTime("updateTime"),
-                    blogid = data.GetInt32("blogId"),
+                    Id = data.GetInt32(0),
+                    Title = data.GetString(1),
+                    Content = data.GetString(2),
+                    postTime = data.GetDateTime(3),
+                    updateTime = data.GetDateTime(4),
+                    blogId = data.GetInt32(5),
 
                 };
                 bloggers.Add(bloggERS);
@@ -75,7 +75,7 @@ namespace BlogAPI.Controllers
 
             connection.Open();
 
-            var sql = @"DELETE FROM `blogger` WHERE `id` = @id";
+            var sql = @"DELETE FROM `blogpost` WHERE `id` = @id";
 
             var cmd = new MySqlCommand(sql, connection);
 
@@ -96,12 +96,12 @@ namespace BlogAPI.Controllers
 
             connection.Open();
 
-            var sql = @"UPDATE `blogger` SET `Name`=@name,`Email`=@email,`Age`=@age,`Password`=@password WHERE `id` = @id";
+            var sql = @"UPDATE `blogpost` SET `Title`=@title,`Content`=@content,`postTime`=@postTime,`updateTime`=@updateTime,`blogId`=@blogId WHERE `id` = @id";
 
             var cmd = new MySqlCommand(sql, connection);
 
             cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@name", updateBloggerDTO.Name);
+            cmd.Parameters.AddWithValue("@title", updateBloggerDTO.ToString);
             cmd.Parameters.AddWithValue("@email", updateBloggerDTO.Email);
             cmd.Parameters.AddWithValue("@age", updateBloggerDTO.Age);
             cmd.Parameters.AddWithValue("@password", updateBloggerDTO.Password);
