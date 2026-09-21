@@ -149,7 +149,7 @@
         }
       }
     },
-    "/api/Blog/nameEmail": {
+    "/api/Blog/NameEmailById": {
       "get": {
         "tags": [
           "Blog"
@@ -262,17 +262,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateBloggerDTO"
+                "$ref": "#/components/schemas/UpdateBlogPostDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateBloggerDTO"
+                "$ref": "#/components/schemas/UpdateBlogPostDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateBloggerDTO"
+                "$ref": "#/components/schemas/UpdateBlogPostDTO"
               }
             }
           },
@@ -360,6 +360,31 @@
               "null",
               "string"
             ]
+          }
+        }
+      },
+      "UpdateBlogPostDTO": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "content": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "blogId": {
+            "pattern": "^-?(?:0|[1-9]\\d*)$",
+            "type": [
+              "integer",
+              "string"
+            ],
+            "format": "int32"
           }
         }
       }

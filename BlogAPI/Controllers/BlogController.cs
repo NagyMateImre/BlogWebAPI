@@ -154,7 +154,7 @@ namespace BlogAPI.Controllers
             return data;
         }
 
-        [HttpGet("nameEmail")]
+        [HttpGet("NameEmailById")]
 
         public object BloggerGetinformation(int id)
         {

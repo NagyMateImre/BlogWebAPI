@@ -75,7 +75,7 @@ namespace BlogAPI.Controllers
 
             connection.Open();
 
-            var sql = @"DELETE FROM `blogpost` WHERE `id` = @id";
+            var sql = @"DELETE FROM `blogpost` WHERE `Id` = @id";
 
             var cmd = new MySqlCommand(sql, connection);
 
@@ -90,26 +90,25 @@ namespace BlogAPI.Controllers
 
         [HttpPut]
 
-        public object UpdateBloggers([FromQuery] int id, UpdateBloggerDTO updateBloggerDTO)
+        public object UpdateBloggers([FromQuery] int id, UpdateBlogPostDTO updateBlogPostDTO)
         {
             var connection = new MySqlConnection(connectionString);
 
             connection.Open();
 
-            var sql = @"UPDATE `blogpost` SET `Title`=@title,`Content`=@content,`postTime`=@postTime,`updateTime`=@updateTime,`blogId`=@blogId WHERE `id` = @id";
+            var sql = @"UPDATE `blogpost` SET `Title`=@title,`Content`=@content,`blogId`=@blogId WHERE `Id` = @id";
 
             var cmd = new MySqlCommand(sql, connection);
 
             cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@title", updateBloggerDTO.ToString);
-            cmd.Parameters.AddWithValue("@email", updateBloggerDTO.Email);
-            cmd.Parameters.AddWithValue("@age", updateBloggerDTO.Age);
-            cmd.Parameters.AddWithValue("@password", updateBloggerDTO.Password);
+            cmd.Parameters.AddWithValue("@title", updateBlogPostDTO.Title);
+            cmd.Parameters.AddWithValue("@content", updateBlogPostDTO.Content);
+            cmd.Parameters.AddWithValue("@blogId", updateBlogPostDTO.blogId);
 
             cmd.ExecuteNonQuery();
             connection.Close();
 
-            return new { message = "Siekres frissítés", resault = updateBloggerDTO };
+            return new { message = "Siekres frissítés", resault = updateBlogPostDTO };
         }
     }
 }

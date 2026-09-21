@@ -81,7 +81,7 @@
   {
     "ContainingType": "BlogAPI.Controllers.BlogController",
     "Method": "BloggerGetinformation",
-    "RelativePath": "api/Blog/nameEmail",
+    "RelativePath": "api/Blog/NameEmailById",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -150,8 +150,8 @@
         "IsRequired": false
       },
       {
-        "Name": "updateBloggerDTO",
-        "Type": "BlogAPI.Models.dtos.UpdateBloggerDTO",
+        "Name": "updateBlogPostDTO",
+        "Type": "BlogAPI.Models.dtos.UpdateBlogPostDTO",
         "IsRequired": true
       }
     ],
