@@ -284,6 +284,18 @@
           }
         }
       }
+    },
+    "/api/Blogpos/Allrekord": {
+      "get": {
+        "tags": [
+          "Blogpos"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

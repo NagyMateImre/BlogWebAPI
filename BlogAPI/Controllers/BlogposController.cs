@@ -10,10 +10,10 @@ namespace BlogAPI.Controllers
     [ApiController]
     public class BlogposController : ControllerBase
     {
-        public string connectionString = "server=localhost;uid=root;password=;database=blog;";
+        public string connectionString = "server=localhost;port=3307;uid=root;password=;database=blog;";
 
         [HttpGet]
-        public object GetBloggers()
+        public object GetBlogs()
         {
             List<Blogpost> bloggers = new List<Blogpost>();
             var connection = new MySqlConnection(connectionString);
@@ -45,7 +45,7 @@ namespace BlogAPI.Controllers
 
         [HttpPost]
 
-        public object AddNewBloggers([FromBody] AddNewBlogPostDTO addNewBlogPostDTO)
+        public object addNewblog([FromBody] AddNewBlogPostDTO addNewBlogPostDTO)
         {
             var connection = new MySqlConnection(connectionString);
             connection.Open();
@@ -68,7 +68,7 @@ namespace BlogAPI.Controllers
 
         [HttpDelete]
 
-        public object DeleteBloggers(int id)
+        public object DeleteBlog(int id)
         {
 
             var connection = new MySqlConnection(connectionString);
@@ -90,7 +90,7 @@ namespace BlogAPI.Controllers
 
         [HttpPut]
 
-        public object UpdateBloggers([FromQuery] int id, UpdateBlogPostDTO updateBlogPostDTO)
+        public object UpdateBlog([FromQuery] int id, UpdateBlogPostDTO updateBlogPostDTO)
         {
             var connection = new MySqlConnection(connectionString);
 
@@ -109,6 +109,29 @@ namespace BlogAPI.Controllers
             connection.Close();
 
             return new { message = "Siekres frissítés", resault = updateBlogPostDTO };
+        }
+
+        [HttpGet("Allrekord")]
+
+        public object GetAllpost()
+        {
+            long recordCount = 0;
+
+            var connection = new MySqlConnection(connectionString);
+
+            connection.Open();
+
+            var sql = @"SELECT COUNT(`Id`) FROM `blogpost` WHERE 1;";
+
+            var cmd = new MySqlCommand(sql, connection);
+
+            var result = cmd.ExecuteScalar();
+
+            if (result != null)
+            {
+                recordCount = Convert.ToInt64(result);
+            }
+            return new { result = recordCount };
         }
     }
 }
