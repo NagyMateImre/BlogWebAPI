@@ -10,7 +10,7 @@ namespace BlogAPI.Controllers
     [ApiController]
     public class BlogposController : ControllerBase
     {
-        public string connectionString = "server=localhost;port=3307;uid=root;password=;database=blog;";
+        public string connectionString = "server=localhost;uid=root;password=;database=blog;";
 
         [HttpGet]
         public object GetBloggers()
