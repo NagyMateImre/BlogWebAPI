@@ -42,7 +42,6 @@ namespace BlogAPI.Controllers
 
             return bloggers;
         }
-
         [HttpPost]
 
         public object addNewblog([FromBody] AddNewBlogPostDTO addNewBlogPostDTO)
@@ -131,6 +130,64 @@ namespace BlogAPI.Controllers
             {
                 recordCount = Convert.ToInt64(result);
             }
+            return new { result = recordCount };
+        }
+
+        [HttpGet("GetPostByName")]
+        public object GetAllPost(string name)
+        {
+
+            List<Blogpost> blogposts = new List<Blogpost>();
+            var connection = new MySqlConnection(connectionString);
+
+            var sql = @"SELECT blogpost.Title,blogpost.Content FROM `blogger` INNER JOIN blogpost ON blogger.Id = blogpost.blogId WHERE `Name` = @name;";
+
+            var cmd = new MySqlCommand(sql, connection);
+
+            cmd.Parameters.AddWithValue("@name", name);
+
+            connection.Open();
+
+            var datareader = cmd.ExecuteReader();
+            object? data = null;
+            while (datareader.Read())
+            {
+                var blogpostM = new Blogpost
+                {
+                    Title = datareader.GetString(0),
+                    Content = datareader.GetString(1),
+                };
+                blogposts.Add(blogpostM);
+                if (blogpostM != null)
+                {
+                    data = new { message = "Sikeres Lekérdezés", blogposts };
+                }
+            }
+            connection.Close();
+            return data;
+        }
+
+        [HttpGet("BloggersPost")]
+
+        public object GetAllPostById(int id)
+        {
+            long recordCount = 0;
+
+            var connection = new MySqlConnection(connectionString);
+
+            var sql = @"SELECT COUNT(*) FROM `blogger` INNER JOIN blogpost ON blogger.Id = blogpost.blogId WHERE `blogId` = @id;";
+
+            var cmd = new MySqlCommand(sql, connection);
+
+            cmd.Parameters.AddWithValue("@id", id);
+
+            connection.Open();
+
+            var result = cmd.ExecuteScalar();
+
+            recordCount = Convert.ToInt32(result);
+
+            connection.Close();
             return new { result = recordCount };
         }
     }
